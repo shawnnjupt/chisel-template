@@ -1,4 +1,4 @@
-# Chisel temple (edit by shawn)
+# Chisel design temple flow (edit by shawn)
 
 ## 1、chisel flow
 
@@ -83,7 +83,7 @@ sbt run
 sbt test
 ```
 
-## 2、EDA(VCS) SIM flow
+## 2、EDA(VCS) SIM flow(Optional)
 
 环境: ubuntu20.04  wsl2
 
@@ -95,7 +95,8 @@ vcs破解参照:[v c s 2016&v e r d i2016安装及调试总结(教程) - IC验�
 #command
 act_vcs
 err_vcs
-#如果遇到hostid不对，需要更新 ifconfig里面的 ether:dc值生成新liscence
+#如果遇到hostid不对，需要更新 ifconfig里面的 ether:dc值生成新license
+#生成的文件第二行改成 DAEMON snpslmd  /synopsys/scl11.9/linux/bin/snpslmd
 #!!!!!!!in bashrc
 alias act_vcs='lmgrd -c /synopsys/vcs2016.06/license/Synopsys.dat' #注意改路径
 alias err_vcs='lmdown'
