@@ -76,6 +76,13 @@ class Ram32x1024SyncTest  extends AnyFreeSpec with Matchers {
 
 ```
 
+### sbt command
+
+```scala
+sbt run
+sbt test
+```
+
 ## 2、EDA(VCS) SIM flow
 
 ### VCS setup
@@ -125,33 +132,58 @@ make verdi 看波形
 ### VCS快捷键
 
 g   get, signlas添加信号，显示波形
+
 n   next, Search Forward选定信号按指定的值（上升沿，下降沿，both,指定Value）向前跳转
+
 N   与n功能相同，方向向后
+
 y   Keep Cursor at Centor（开关）移至中央并保持居中，再按取消固定居中
+
 c   color,调整所选信号的波形显示颜色，线的粗细和类型，非常方便Debug
+
 f   full, Zoom All波形全部显示
+
 z   Zoom Out波形缩小，一般配合鼠标放大非常方便
+
 Z   Zoom In 波形放大
+
 l   last view，上次波形位置，相当于Vim里的``或''
+
 L   重新加载波形或设计文件，这个很方便，在新一次仿真完成之后Roload即可
+
 b   begin移动Cursor到波形开头
+
 e   end移动Cursor到波形结尾
+
 r   restore signals 保存波形信号列表
+
 h   hierarchy显示信号的绝对路径
+
 H   Highlight（开关）是否高亮显示所选信号
+
 m   move将信号移动到黄线位置
+
 Delete   删除所选信号
+
 Ctrl+Right Arrow   向右移动半屏
+
 Ctrl+Left Arrow   向左移动半屏
 
-
 鼠标：
+
 左键：用于选择信号
+
 右键：调出菜单
+
 中间：单击移动黄线，拖动信号可移动位置排列顺序
+
 滑轮：上下滚屏
+
 左键圈定波形范围：按选定缩放
+
 双击信号波形： 跳转到代码，并用绿色高亮该信号
+
 双击信号：按位展开(expand)，Struct展开下一层。再双击折叠(collapse)
+
 右键信号名->Bus Operations->Expand as Sub-bus->可以按指定位宽展开，比如512bits的信号分成4个128的，方便查看
 
