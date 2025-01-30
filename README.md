@@ -85,6 +85,10 @@ sbt test
 
 ## 2、EDA(VCS) SIM flow
 
+环境: ubuntu20.04  wsl2
+
+vcs破解参照:[v c s 2016&v e r d i2016安装及调试总结(教程) - IC验证讨论 - EETOP 创芯网论坛 (原名：电子顶级开发网) -](https://bbs.eetop.cn/thread-893428-1-1.html)
+
 ### VCS setup
 
 ```python
@@ -92,6 +96,9 @@ sbt test
 act_vcs
 err_vcs
 #如果遇到hostid不对，需要更新 ifconfig里面的 ether:dc值生成新liscence
+#!!!!!!!in bashrc
+alias act_vcs='lmgrd -c /synopsys/vcs2016.06/license/Synopsys.dat' #注意改路径
+alias err_vcs='lmdown'
 ```
 
 ### 编写tb
@@ -128,6 +135,34 @@ endmodule
 make all 编译
 
 make verdi 看波形
+
+脚本如下:
+
+```makefile
+.PHONY:com sim clean
+
+tab=/synopsys/verdi2016.06/share/PLI/VCS/LINUX64/novas.tab 
+pli=/synopsys/verdi2016.06/share/PLI/VCS/LINUX64/pli.a 
+top=tb
+
+all: clean comp run
+
+clean:
+	rm -rf simv* csrc *.log vc_hdrs.h ucli.key ./proj ./verdiLog *.fsdb ./DVEfiles
+
+comp:
+	vcs -full64 -cpp g++-4.8 -cc gcc-4.8 -LDFLAGS -Wl,--no-as-needed  +v2k -fsdb +define+FSDB -sverilog  -kdb -lca -debug_pp -f ./verilog_file.f  -timescale=1ns/1ns -top tb -P ${tab} ${pli}  -l comp.log 
+
+run:
+	./simv  +UVM_NO_RELNOTES  -l run.log
+
+verdi:
+	verdi \
+	-f ./verilog_file.f \                     #用Verdi加载verif.f所列全部源文件
+	-top ${top}  \
+	-ssf *.fsdb &                    #启动Verdi查看fsdb类型的波形文件
+
+```
 
 ### VCS快捷键
 
