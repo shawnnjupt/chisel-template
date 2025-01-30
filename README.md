@@ -1,4 +1,4 @@
-# Chisel design temple flow (edit by shawn)
+# Chisel design template flow (edit by shawn)
 
 ## 1、chisel flow
 
