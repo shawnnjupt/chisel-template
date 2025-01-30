@@ -20,7 +20,7 @@ import org.scalatest.matchers.must.Matchers
 
 
 class Ram32x1024SyncTest  extends AnyFreeSpec with Matchers {
-  "Gcd should calculate proper greatest common denominator" in {
+  "Ram32x1024Sync should work correctly" in {
     simulate(new ram32x1024_sync) {dut =>
             // 初始化信号
             dut.io.wr.poke(false.B)
@@ -45,6 +45,7 @@ class Ram32x1024SyncTest  extends AnyFreeSpec with Matchers {
             dut.io.rd.poke(true.B)
             dut.clock.step(1)
             dut.io.rdata.expect(testData)  // 同步RAM应在下一周期返回数据
+            println(s"Test 1: Read data = ${dut.io.rdata.peek().litValue.toInt.toHexString}")
 
             // 测试2: 字节使能测试
             val partialData = 0xAABBCCDDL.U(32.W)
@@ -63,20 +64,13 @@ class Ram32x1024SyncTest  extends AnyFreeSpec with Matchers {
             dut.io.wr.poke(false.B)
             dut.io.rd.poke(true.B)
             dut.clock.step(1)
+            println(s"Test 2: Read data = ${dut.io.rdata.peek().litValue.toInt.toHexString}")
             // 预期结果：高16位保持原值（0x1234），低16位更新为0xBBAA
-            // dut.io.rdata.expect(0x1234BBAAL.U)
+            dut.io.rdata.expect(0x1234CCDDL.U)
 
-            // 测试3: 同时读写冲突
-            dut.io.wr.poke(true.B)
-            dut.io.rd.poke(true.B)  // 同时触发读写
-            dut.io.addr.poke(testAddr)
-            dut.io.wdata.poke(0xDEADBEEFL.U)
-            dut.clock.step(1)
 
-            // 应优先处理写操作，读数据应为旧值
-            // dut.io.rdata.expect(0x1234BBAAL.U)  // 验证读的是上一个周期的数据
 
-            // 测试4: 地址边界测试
+            // 测试3: 地址边界测试
             val maxAddr = 1023.U
             val edgeData = 0xCAFEBABEL.U
 
@@ -91,7 +85,8 @@ class Ram32x1024SyncTest  extends AnyFreeSpec with Matchers {
             dut.io.wr.poke(false.B)
             dut.io.rd.poke(true.B)
             dut.clock.step(1)
-            // dut.io.rdata.expect(edgeData)
+            println(s"Test 3: Read data = ${dut.io.rdata.peek().litValue.toInt.toHexString}")
+            dut.io.rdata.expect(edgeData)
 
 
     }
